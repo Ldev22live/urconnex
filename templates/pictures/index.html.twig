@@ -1,0 +1,61 @@
+{% extends 'innerbase.html.twig' %}
+
+{% block body %}
+    {%  include 'partials/navbar.html.twig' %}
+    <div class="container-fluid">
+        <div class="row">
+            <!-- just sidebar -->
+            <div class="row min-vh-100 mt-5 pt-5 flex-column flex-md-row ">
+                {% include 'partials/sidebar.html.twig' %}
+
+                <!-- dashboard content -->
+                <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                    <div class="text-center mb-4">
+                        <form action="/audio/save" method="POST" id="myForm" enctype="multipart/form-data">
+                            <p>Upload a song...</p>
+                            <span class="control-fileupload">
+                    <label for="file">Choose a file :</label>
+                    <input type="file" name="video" id="video">
+                </span>
+                            <small>Note: Files with spaces in the name get spaces removed</small>
+                            <br/>
+                            <input type="text" name="newname" placeholder="Rename file [optional]" class="form-control"/>
+                            <br/>
+                            <input type="submit" value="Upload File"  id="uploadvideo" onclick="upload_song()" class="btn btn-primary btn-block"/>
+                        </form>
+                        <h3>OR</h3>
+                        <form action="/audio/saveyoutube" id="myForm2" method="POST">
+                            <p>Upload audio from YouTube</p>
+                            <small>Paste Video link:</small>
+                            <input type="text" id="url" name="url" class="form-control" placeholder="YouTube Video Link..."/>
+                            <small>Give the audio a name</small>
+                            <br/>
+                            <div class='progress' id="progress_div2">
+                                <div class='bar' id='bar2'></div>
+                                <div class='percent' id='percent2'>0%</div>
+                            </div>
+                            <input type="text" name="youname" placeholder="Add filename for youtube file" class="form-control" required/>
+                            <br/>
+                            <input type="submit" id="saveyoutube" onclick='upload_song();' value="Click here to upload from YouTube" onclick='downYou();' class="btn btn-primary btn-block"/>
+                        </form>
+                        <div class='progress' id="progress_div">
+                            <div class='bar' id='bar'></div>
+                            <div class='percent' id='percent'>0%</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for media in mediafiles %}
+                            <div class="col-md-4" style="margin:10px;">
+                                <a class="thumbnail" href="{{ path('app_play_index', {'filename': media.filename}) }}">
+                                    <img class="img-fluid"
+                                         src="{{ media.thumbnail }}"
+                                         alt="{{ media.filename }}" width="150em">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+{% endblock %}

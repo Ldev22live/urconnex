@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Session Expired{% endblock %}
+
+{% block body %}
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><img src="/images/urlogo.png" width="100px" class="img-responsive"/></a>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/home/signup">Signup</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <br/>
+            <br/>
+            <br/>
+            <div class="alert alert-danger text-center" role="alert">
+                <p>Session Exirpied</p>
+                <a href="https://urconnex.com/home/login" class="btn btn-primary">Login again</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

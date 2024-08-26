@@ -1,0 +1,127 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+# config/routes.yaml
+
+app_homepage:
+  path: /
+  controller: App\Controller\IndexController::index
+
+app_home_session:
+  path: /home/session
+  controller: App\Controller\HomeController::session
+
+app_play_index:
+  path: /play/index/{filename}
+  controller: App\Controller\PlayController::index
+  methods: [GET]
+
+app_play_process:
+  path: /play/process/{filename}
+  controller: App\Controller\PlayController::process
+  methods: ['GET']
+
+app_insideplay_index:
+  path: /insideplay/index/{filename}
+  controller: App\Controller\InsideplayController::index
+  methods: [GET]
+
+app_insideplay_process:
+  path: /insideplay/process/{filename}
+  controller: App\Controller\InsideplayController::process
+  methods: ['GET']
+
+app_insideplay_makevideo:
+  path: /insideplay/makevideo/
+  controller: App\Controller\InsideplayController::makevideo
+  methods: ['GET', 'POST']
+
+app_insideplay_capture:
+  path: /insideplay/capture/{filename}
+  controller: App\Controller\InsideplayController::capture
+  methods: ['GET', 'POST']
+
+app_insideplay_trim:
+  path: /insideplay/trim/{filename}
+  controller: App\Controller\InsideplayController::trim
+  methods: ['GET', 'POST']
+
+app_insideplay_convert:
+  path: /insideplay/convert/{filename}
+  controller: App\Controller\InsideplayController::convert
+  methods: ['GET']
+
+home_login:
+  path: /home/login
+  controller: App\Controller\HomeController::login
+  methods: ['GET', 'POST']
+
+home_signup:
+  path: /home/signup
+  controller: App\Controller\HomeController::signupAction
+  methods: [GET, POST]
+
+app_dashboard:
+  path: /dashboard
+  controller: App\Controller\DashboardController::index
+  methods: GET
+
+app_profile_index:
+  path: /profile
+  methods: [GET, POST]
+  controller: 'App\Controller\ProfileController::index'
+
+app_videos_saveyoutube:
+  path: /videos/saveyoutube
+  controller: App\Controller\VideosController::saveYoutube
+  methods: [POST]
+
+save_phonebook_contact:
+  path: /phonebook/save
+  controller: App\Controller\PhonebookController::save
+  methods: [POST]
+
+app_private_chat:
+  path: /chat/private/{receiverId}
+  controller: App\Controller\ChatController::private
+  methods: GET
+
+app_chat_index:
+  path: /chat
+  controller: App\Controller\ChatController::index
+  methods: GET
+
+send_mms:
+  path: /phonebook/sendmms/{sid}
+  controller: App\Controller\PhonebookController::sendmms
+  methods: [GET, POST]
+
+songs_save:
+  path: /songs/save
+  controller: App\Controller\SongsController::save
+  methods: [POST]
+
+picture_save:
+  path: /pictures/save
+  controller: App\Controller\PicturesController::save
+  methods: [ POST ]
+
+people_sendrequest:
+  path: /people/sendrequest
+  controller: App\Controller\PeopleController::sendrequest
+  methods: [GET]
+
+phonebook_add:
+  path: /phonebook/add
+  controller: App\Controller\PhonebookController::add
+  methods: [GET]
+
+phonebook_sendsms:
+  path: /phonebook/sendsms/{sid}
+  controller: App\Controller\PhonebookController::sendsms
+  methods: [GET, POST]
+
+chat_save:
+  path: /chat/save
+  controller: App\Controller\ChatController::save
+  methods: ['POST']

@@ -1,0 +1,74 @@
+{% extends 'innerbase.html.twig' %}
+{% block body %}
+    {%  include 'partials/navbar.html.twig' %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- just sidebar -->
+        <div class="row min-vh-100 mt-5 pt-5 flex-column flex-md-row ">
+            {% include 'partials/sidebar.html.twig' %}
+
+            <!-- dashboard content -->
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <form action="/phonebook/save" class="form-signin" method="POST">
+                            <div class="form-group">
+                                <label for="firstname">Firstname</label>
+                                <input type="text" class="form-control" id="firstname" placeholder="Firstname" name="firstname"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastname">Lastname</label>
+                                <input type="text" class="form-control" id="lastname" placeholder="Lastname" name="lastname"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" id="email" placeholder="Email" name="email"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="cellphone">Cellphone - [include your country code instead of 0 example us number: +1 222 233 433]</label>
+                                <input type="text" class="form-control" id="cellphone" placeholder="Cellphone" name="cellphone"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="carrier">Mobile Carrier</label>
+                                <select name="carrier" class="form-control">
+                                    {% for carrier in carriers %}
+                                        <option value="{{ carrier.getCarrierUrl() }}">{{ carrier.getCarrierName() }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="dob">Date of Birth</label>
+                                <input type="text" class="form-control" id="dob" placeholder="dd/mm/yyyy" name="dob"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <select class="form-control" name="gender">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="region">Region/State/Province</label>
+                                <input type="text" class="form-control" id="region" placeholder="Region/State/Province" name="region"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip">Zip</label>
+                                <input type="text" class="form-control" id="zip" placeholder="Zip Code" name="zip"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" class="form-control" id="city" placeholder="City" name="city"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <input type="text" class="form-control" id="country" placeholder="Country" name="country"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'innerbase.html.twig' %}
+{% block body %}
+    {%  include 'partials/navbar.html.twig' %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- just sidebar -->
+        <div class="row min-vh-100 mt-5 pt-5 flex-column flex-md-row ">
+            {% include 'partials/sidebar.html.twig' %}
+
+            <!-- dashboard content -->
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        <form action="/phonebook/sendsms/{{ sid }}" class="form-control" method="POST">
+                            <p>Send sms to {{ firstname }} {{ lastname }}</p>
+                            <div class="form-group">
+                                <label for="firstname">Message</label>
+                                <textarea class="form-control" id="firstname" name="message" value="Join Urconnex, its free https://urconnex.com/signup">Join Urconnex, its free https://urconnex.com/signup</textarea>
+                            </div>
+                            <input type="hidden" name="address" value="{{ address }}"/>
+                            <input type="hidden" name="sid" value="{{ sid }}"/>
+                            <button type="submit" class="btn btn-primary btn-block">Send SMS</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}

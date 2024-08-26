@@ -1,0 +1,28 @@
+{% extends 'innerbase.html.twig' %}
+{% block body %}
+    {%  include 'partials/navbar.html.twig' %}
+    <div class="container-fluid">
+        <div class="row">
+            <!-- just sidebar -->
+            <div class="row min-vh-100 mt-5 pt-5 flex-column flex-md-row ">
+                {% include 'partials/sidebar.html.twig' %}
+
+                <!-- dashboard content -->
+                <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                    <form id="myForm" action="/insideplay/capture/" method="POST">
+                        <p>Capture screenshot from video...</p>
+                        <p>Name of video: {{ name }}</p>
+                        <p>Enter the end time where screenshot should be in hours, minutes, seconds</p>
+                        <input type="text" name="capture" placeholder="HH:mm:ss" class="form-control"/>
+                        <input type="hidden" name="name" value="{{ name }}"/>
+                        <div class='progress' id="progress_div">
+                            <div class='bar' id='bar'></div>
+                            <div class='percent' id='percent'>0%</div>
+                        </div>
+                        <input type="submit" value="Screenshot" class="btn btn-primary btn-block"/>
+                    </form>
+                </main>
+            </div>
+        </div>
+    </div>
+{% endblock %}

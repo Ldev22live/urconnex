@@ -1,0 +1,48 @@
+{% extends 'chatbase.html.twig' %}
+
+{% block body %}
+    {%  include 'partials/navbar.html.twig' %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- just sidebar -->
+        <div class="row min-vh-100 mt-5 pt-5 flex-column flex-md-row ">
+            {% include 'partials/sidebar.html.twig' %}
+
+            <!-- dashboard content -->
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                <div class="container-fluid h-100">
+                    <div class="row justify-content-center h-100">
+                        <div class="col-md-4 col-xl-3 chat">
+                            <div class="card mb-sm-3 mb-md-0 contacts_card">
+                                <div class="card-body contacts_body">
+                                    <ul class="contacts">
+                                        {% set uid = uid %}
+                                        {% for user in users %}
+                                            {% if user.id != uid %}
+                                                <li>
+                                                    <div class="d-flex bd-highlight">
+                                                        <div class="img_cont">
+                                                            <img src="{{ user.avatar }}" class="rounded-circle user_img">
+                                                            <span class="offline_icon"></span>
+                                                        </div>
+                                                        <div class="user_info">
+                                                            <a href="/chat/private/{{ user.id }}">
+                                                                {{ user.firstname }} {{ user.lastname }}
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

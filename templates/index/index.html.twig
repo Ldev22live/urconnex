@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <nav class="navbar navbar-expand-md bg-light navbar-light py-3 fixed-top">
+        <div class="container">
+            <a href="#showcase" class="navbar-brand"><img src="/update/img/UrConneX_logo.png" height="50px" alt="logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navmenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="#showcase" class="nav-link">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#how-it-works" class="nav-link">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/home/login" class="nav-link">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/index/signup" class="nav-link">Sign Up</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a href="#" class="nav-link">Instructors</a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section id="showcase" class="showcase-bg text-dark p-5 py-lg-0 text-sm-start">
+        <div class="container">
+            <div class="d-sm-flex align-item-center justify-content-between">
+                <div>
+                    <h1 class="pt-5"><img src="/update/img/UrConneX_logo.png" height="80px" class="" alt="logo"></h1>
+                    <h2 class="pt-2 text-left">What Can We Do?</h2>
+                    <p class="my-4 h4">Watch any video on any internet device at anytime. <br>Chat with anyone at
+                        anytime.</br>
+                    </p>
+                    <p class="h4">No App required</p>
+
+                </div>
+                <img class="img-fluid w-50  d-none d-sm-block" src="/update/img/mobile_3.jpg" alt="">
+            </div>
+        </div>
+    </section>
+    <section class="p-5 how-it-works-section" id="how-it-works">
+        <div class="container">
+            <div class="row  g-4">
+                <div class="col-md">
+                    <div class="p-3 card text-dark">
+                        <h2 class="text-left text-dark mb-4">How It Works</h2>
+                        <p class="h6">Reach your employees, customers or friends with videos that can be sent directly to any internet
+                            capable device.
+                        </p>
+                        <p class="h6">Any smart phone, tablet, computer or gaming console from 3G to 5G can now receive messages and videos
+                            directly in the browser.
+                        </p>
+                        <p class="h6">Our proprietory technology bypasses the need for an App, which saves battery power and hardware space.
+                        </p>
+                        <p class="h6">Sign up and create an account. From there you will be able to upload videos to the UrConnex server.</p>
+                    </div>
+                </div>
+
+    </section>
+    <section class="row  latest-uploads">
+        <div class="container">
+            <h1 class="text-left text-dark mb-4">Latest Uploads</h1>
+            <div class="row" style="background: #ccc; height:650px; padding:15px;">
+                {% for media in media %}
+                    <div class="col-md-4" style="margin:10px;">
+                        <a class="thumbnail" href="{{ path('app_play_index', {filename: media.filename}) }}">
+                            <img class="img-fluid"
+                                 src="{{ media.thumbnail }}"
+                                 alt="{{ media.filename }}" width="150em">
+                        </a>
+                    </div>
+                {% endfor %}
+                <br/><br/><br/>
+            </div>
+        </div>
+    </section>
+    <div class="row" style="margin-top: 150px; height:60px;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md">
+                    <h2 class="text-left mb-4">Contact Info</h2>
+                    <ul class="list-group list-group-flush lead bg-dark text-white">
+                        <li class="list-group-item">
+                            <span class="fw-bold">
+                                Email:
+                            </span> info@urconnex.com
+                        </li>
+                    </ul>
+                </div>
+                <div class="container">
+                    <p class="lead">Copyright &copy; <?php echo date('Y'); ?> UrConneX</p>
+                    <a href="#" class="position-absolute bottom-0 end-0 p-5">
+                        <i class="bi bi-arrow-up-circle h1"></i>
+
+                    </a>
+                </div>
+                <!-- map goes here -->
+                <div class="col-md"></div>
+            </div>
+        </div>
+    </div>
+    <footer class="row">
+        <div class="container">
+            <p class="lead">Copyright &copy; <?php echo date('Y'); ?> UrConneX</p>
+            <a href="#" class="position-absolute bottom-0 end-0 p-5">
+                <i class="bi bi-arrow-up-circle h1"></i>
+
+            </a>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
+    <script src="/js/jquery.min.js"></script>
+{% endblock %}

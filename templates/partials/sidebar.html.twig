@@ -1,0 +1,73 @@
+<aside class=" sidebar col-12 col-md-3 col-xl-2 p-0 bg-dark flex-shrink-1">
+    <nav class="navbar navbar-expand-md navbar-dark bd-dark flex-md-column flex-row align-items-center py-2 text-center sticky-top"
+         id="sidebar">
+        <div class="text-center p-3">
+            <!-- profile-image goes here: -->
+            {% if avatar is defined %}
+            <a href="/profile" class="navbar-brand mx-0 font-weight-bold text-nowrap" title="">
+                <img src="{{ avatar }}" alt="profile picture" class="img-fluid rounded-circle my-4 p-1 d-none d-md-block shadow">
+                {{ fullname }}
+            </a>
+            {% endif %}
+        </div>
+        <button type="button" class="navbar-toggler border-0 order-1" data-bs-toggle="collapse"
+                data-bs-target="#nav" aria-controls="nav" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse order-last" id="nav">
+            <ul class="navbar-nav flex-column w-100 justify-content-center">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/profile" class="nav-link ">Profile and Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/videos" class="nav-link ">My Videos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/songs" class="nav-link ">My Audio Clips</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/pictures" class="nav-link ">My Pictures</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/chat" class="nav-link ">My Messages</a>
+                <li class="nav-item">
+                    <a href="/chat" class="nav-link ">Chat</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/favourites" class="nav-link ">My Favorites</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/people" class="nav-link ">My Friends</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/phonebook" class="nav-link ">Phone Book</a>
+                </li>
+                <!--li class="nav-item">
+                    <a href="/trash" class="nav-link ">Cleanup Campaign</a>
+                </li-->
+            </ul>
+        </div>
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a href="https://twitter.com" class="nav-link text-white">
+                    <i class="fab fa-twitter-square fa-lg"></i></a>
+            </li>
+            <li class="nav-item">
+                <a href="https://instagram.com" class="nav-link text-white">
+                    <i class="fab fa-instagram-square fa-lg"></i></a>
+            </li>
+            <li class="nav-item">
+                <a href="https//mail.google.com" class="nav-link text-white"> <i class="fas fa-envelope fa-lg"></i></a>
+            </li>
+            <li class="nav-item">
+                <a href="https://linkedin.com" class="nav-link text-white"> <i class="fab fa-linkedin fa-lg"></i></a>
+            </li>
+
+        </ul>
+
+    </nav>
+</aside>

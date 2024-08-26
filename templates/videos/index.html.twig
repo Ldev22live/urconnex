@@ -1,0 +1,82 @@
+{% extends 'innerbase.html.twig' %}
+
+{% block body %}
+    {%  include 'partials/navbar.html.twig' %}
+    <div class="container-fluid">
+        <div class="row">
+        <!-- just sidebar -->
+            <div class="row min-vh-100 mt-5 pt-5 flex-column flex-md-row">
+                {% include 'partials/sidebar.html.twig' %}
+                <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                    <div class="text-center mb-4">
+                        <form enctype="multipart/form-data" id="myForm" action="/videos/" method="POST">
+                            <p>Upload a video...</p>
+                            {% if blocked is defined %}
+                                <div class="alert alert-danger">
+                                    <p>Access to the video has been blocked</p>
+                                </div>
+                            {% endif %}
+                            <span class="control-fileupload">
+                    <label for="file">Choose a file :</label>
+                    <input type="file" name="video" id="upload_file">
+                </span>
+                            <small>Note: Files with spaces in the name get spaces removed</small>
+                            <br/>
+                            <input type="text" name="newname" placeholder="Rename file [optional]" class="form-control"/>
+                            <br/>
+                            <div class='progress' id="progress_div">
+                                <div class='bar' id='bar'></div>
+                                <div class='percent' id='percent'>0%</div>
+                            </div>
+                            <input type="submit" id="uploadvideo" onclick='upload_image();' value="Upload File" class="btn btn-primary btn-block"/>
+                        </form>
+                        <h3>OR</h3>
+                        <form action="/videos/saveyoutube" id="myForm2" method="POST">
+                            <p>Upload video from YouTube</p>
+                            <small>Paste Video link:</small>
+                            <input type="text" id="url" name="url" class="form-control" placeholder="YouTube Video Link..."/>
+                            <small>Give the video a name</small>
+                            <br/>
+                            <div class='progress' id="progress_div2">
+                                <div class='bar' id='bar2'></div>
+                                <div class='percent' id='percent2'>0%</div>
+                            </div>
+                            <input type="text" name="youname" placeholder="Add filename for youtube file" class="form-control" required/>
+                            <br/>
+                            <input type="submit" id="saveyoutube" value="Click here to upload from YouTube" class="btn btn-primary btn-block"/>
+                        </form>
+                    </div>
+                    <div class="row">
+                        {% for media in mediafiles %}
+                            <div class="col-md-4" style="margin:10px;">
+                                <a class="thumbnail" href="{{ path('app_insideplay_index', {'filename': media.filename}) }}">
+                                    <img class="img-fluid"
+                                         src="{{ media.thumbnail }}"
+                                         alt="{{ media.filename }}" width="150em">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </main>
+            </div>
+        </div>
+        <!--end of row-->
+    </div>
+    <footer class="p-2 bg-dark text-white text-center position-relative">
+        <div class="container">
+            <p class="lead">Copyright &copy; <?php echo date("Y"); ?> UrConneX</p>
+            <a href="#" class="position-absolute bottom-0 end-0 m-3">
+                <i class="bi bi-arrow-up-circle h1"></i>
+
+            </a>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+    </script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
+
+    <script src="/js/upload.js"></script>
+    <script src="/js/script.js"></script>
+{% endblock %}

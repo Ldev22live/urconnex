@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img src="/images/urlogo.png" width="100px" class="img-responsive"/></a>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/home/signup">Signup</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4">
+                <br/>
+                <br/>
+                <br/>
+                {% if error is not empty %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endif %}
+                <br/>
+                <form action="/home/login" class="form-signin" method="POST">
+                    <input type="hidden" name="_domkey" value="RkY4VFF3UmJGMVJTQlZjUVdnZ0FEVUZjQTBkTVZneGU="/>
+                    <input type="hidden" name="_action" value="login"/>
+                    <h2 class="form-signin-heading">Please sign in</h2>
+                    <label for="email" class="sr-only">Email address</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+                    <label for="password" class="sr-only">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="remember-me" name="remember_me"> Remember me
+                        </label>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <br/>
+                    <h5 align="center"><a href="/home/reset">Forgot Password ?</a></h5>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+{% endblock %}

@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UrConnex - Watching {{ seotag }}{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/"><img src="/images/urlogo.png" width="100px" class="img-responsive"/></a>
+                {% if uid is defined %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/dashboard"><i class="fa fa-2x fa-home"></i></a></li>
+                        <li><a href="/chat"><i class="fa fa-2x fa-comment"></a></i></li>
+                        <li><a href="/profile"><i class="fa fa-2x fa-user"></i></a></li>
+                        <li><a href="/addressbook"><i class="fa fa-2x fa-phone-square"></i></a></li>
+                        <li><a href="/index/logout"><i class="fa fa-2x fa-sign-out"></i></a></li>
+                    </ul>
+                {% else %}
+                    <a href="/home/login">Login</a> | 
+                    <a href="/home/signup">Signup</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="container loading" style="width: 1000px; margin-left: auto; margin-right: auto; margin-top: 150px;">
+        <div class="row">
+            <div class="col-lg-6">
+                <input type="hidden" id="filename" value="{{ filename }}">
+                <img src="/images/image_loading.gif" class="img-responsive"/>
+                <p>Loading Video...Please be patient...
+                <div id="progress"></div>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container links" style="width: 1000px; margin-left: auto; margin-right: auto; margin-top: 150px;">
+        <div class="row">
+            <div class="col-lg-6 col-lg-offset-2">
+                {% if uid is defined %}
+                    <a href="/tools/convert?name={{ mp4 }}" class="btn btn-primary btn-block">Make Ringtone</a>
+                    <a href="/tools/makevideo?name={{ mp4 }}" class="btn btn-primary btn-block">Make Video</a>
+                    <a href="/tools/capture?name={{ mp4 }}" class="btn btn-primary btn-block">Screenshot</a>
+                    <a href="/tools/share" class="btn btn-primary btn-block">Share Video</a>
+                    <a href="/tools/shorten?name={{ mp4 }}" class="btn btn-primary btn-block">Make Clip</a>
+                    <a href="/tools/delete?name={{ mp4 }}" class="btn btn-primary btn-block">Delete</a>
+                    <a href="{{ gp }}" class="btn btn-primary btn-block">Download Video</a>
+                    <p>OR copy below link and open in your device player</p>
+                {% else %}
+                    {% if gp is defined %}
+                        <a href="{{ gp }}" class="btn btn-primary btn-block">Download Video</a>
+                        <p>OR copy below link and open in your device player</p>
+                        <a href="{{gp}}">{{ gp }}
+                    {% endif %}
+                {%  endif %}
+                            {% if desktop is defined %}
+                                <div class="container links"></div>
+                            {% else %}
+                                <div class="container links"></div>
+
+                            {% endif %}
+            </div>
+        </div>
+    </div>
+        <hr/>
+        <div class="row">
+            {% for media in mediafiles %}
+                {# {% if file_exists(media.filename) %} #}
+                    <div class="col-md-4" style="margin:10px;">
+                        <a class="thumbnail" href="/play/index/{{ media.filename }}">
+                            <img class="img-fluid"
+                                 src="{{ media.thumbnail }}"
+                                 alt="{{ media.filename }}" width="150em"> 
+                        </a> 
+                   </div>
+                {# {% endif %} #}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+<script src="/js/jquery.min.js"></script>   
+<script>
+$(document).ready(function() {
+  var filename = $('#filename').val();
+  console.log("We are here" + filename);
+    // Display the loading image and progress bar
+    $('.links').html(
+      '<div class="container loading" style="width: 1000px; margin-left: auto; margin-right: auto;">' +
+      '<div class="row">' +
+      '<div class="col-lg-6">' +
+      '' +
+      '<div id="progress"></div>' +
+      '</div>' +
+      '</div>' +
+      '</div>'
+    );
+    // Make the AJAX call to the process method
+  $.ajax({
+      url: '/play/process/' + filename,
+      type: 'GET',
+      dataType: 'json',
+      xhr: function() {
+        var xhr = new window.XMLHttpRequest();
+        console.log(xhr);
+        // Add progress event listener to update progress bar
+        xhr.addEventListener('progress', function(event) {
+          if (event.lengthComputable) {
+            var percentComplete = event.loaded / event.total * 100;
+            $('#progress').css('width', percentComplete + '%');
+          }
+        }, false);
+        return xhr;
+      },
+      success: function(response) {
+          console.log(response);
+        // Hide the loading image and progress bar
+        $('.loading').hide();
+        $('.links').show();
+        {% if desktop is defined %}
+            // Display the video player
+            var videoPlayer = $('<video></video>')
+              .attr('id', 'my-video')
+              .attr('class', 'video-js')
+              .attr('controls', 'controls')
+              .attr('preload', 'auto')
+              .attr('width', '640')
+              .attr('height', '264')
+              .attr('poster', response.poster)
+              .attr('data-setup', '{}');
+
+            var mp4Source = $('<source></source>')
+              .attr('src', response.mp4)
+              .attr('type', 'video/mp4');
+
+            var webmSource = $('<source></source>')
+              .attr('src', response.webm)
+              .attr('type', 'video/webm');
+
+            videoPlayer.append(mp4Source, webmSource);
+
+            $('.links').html('').append(videoPlayer);
+        {% else %}
+            // Display the links
+            var linksContainer = $('.links');
+            var downloadLink = $('<a></a>')
+              .attr('href', response.gp)
+              .addClass('btn btn-primary btn-block')
+              .text('Download Video');
+
+            var copyLink = $('<p></p>')
+              .text('OR copy below link and open in your device player');
+
+            var copyLinkUrl = $('<a></a>')
+              .attr('href', response.gp)
+              .text(response.gp);
+            console.log("The link is" + copyLinkUrl);
+            linksContainer.html('').append(downloadLink, copyLink, copyLinkUrl);
+        {% endif %}
+    },
+    error: function(xhr, status, error) {
+        console.error(error);
+        console.error(xhr);
+        console.error(status);
+    }
+  });
+});
+</script>
+{% endblock %}
+    

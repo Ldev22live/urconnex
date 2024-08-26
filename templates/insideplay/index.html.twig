@@ -1,0 +1,151 @@
+{% extends 'innerbase.html.twig' %}
+
+{% block body %}
+    {%  include 'partials/navbar.html.twig' %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- just sidebar -->
+        <div class="row min-vh-100 mt-5 pt-5 flex-column flex-md-row">
+            {% include 'partials/sidebar.html.twig' %}
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                <div class="text-center mb-4">
+                    <div class="row">
+                        <a href="/insideplay/convert/{{ filename }}" class="btn btn-primary btn-block">Make Ringtone</a>
+                        <a href="/insideplay/makevideo/" class="btn btn-primary btn-block">Make Video</a>
+                        <a href="/insideplay/capture/{{ filename }}" class="btn btn-primary btn-block">Screenshot</a>
+                        <!--a href="/tools/share" class="btn btn-primary btn-block">Share Video</a-->
+                        <a href="/insideplay/trim/{{ filename }}" class="btn btn-primary btn-block">Make Clip</a>
+                        <!--a href="/tools/delete?name={{ filename }}" class="btn btn-primary btn-block">Delete</a-->
+                    </div>
+                    <div class="container loading" style="width: 1000px; margin-left: auto; margin-right: auto; margin-top: 150px;">
+                        <div class="row">
+                            <div class="col-lg-4 col-lg-offset-8">
+                                <input type="hidden" id="filename" value="{{ filename }}">
+                                <img src="/images/image_loading.gif" width="500px" class="img-responsive"/>
+                                <p>Loading Video...Please be patient...
+                                <div id="progress"></div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container links" style="width: 1000px; margin-left: auto; margin-right: auto; margin-top: 150px;">
+                        <div class="row">
+                            <div class="col-lg-6 col-lg-offset-2">
+                                <p>OR copy below link and open in your device player</p>
+                                {% if desktop is defined %}
+                                    <div class="container links"></div>
+                                {% else %}
+                                    <div class="container links"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        {% for media in mediafiles %}
+                            {# {% if file_exists(media.filename) %} #}
+                            <div class="col-md-4" style="margin:10px;">
+                                <a class="thumbnail" href="/play/index/{{ media.filename }}">
+                                    <img class="img-fluid"
+                                         src="{{ media.thumbnail }}"
+                                         alt="{{ media.filename }}" width="150em">
+                                </a>
+                            </div>
+                            {# {% endif %} #}
+                        {% endfor %}
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script src="/js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var filename = $('#filename').val();
+            console.log("We are here" + filename);
+            // Display the loading image and progress bar
+            $('.links').html(
+                '<div class="container loading" style="width: 1000px; margin-left: auto; margin-right: auto;">' +
+                '<div class="row">' +
+                '<div class="col-lg-6">' +
+                '' +
+                '<div id="progress"></div>' +
+                '</div>' +
+                '</div>' +
+                '</div>'
+            );
+            // Make the AJAX call to the process method
+            $.ajax({
+                url: '/insideplay/process/' + filename,
+                type: 'GET',
+                dataType: 'json',
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    console.log(xhr);
+                    // Add progress event listener to update progress bar
+                    xhr.addEventListener('progress', function(event) {
+                        if (event.lengthComputable) {
+                            var percentComplete = event.loaded / event.total * 100;
+                            $('#progress').css('width', percentComplete + '%');
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function(response) {
+                    console.log(response);
+                    // Hide the loading image and progress bar
+                    $('.loading').hide();
+                    $('.links').show();
+                    {% if desktop is defined %}
+                    // Display the video player
+                    var videoPlayer = $('<video></video>')
+                        .attr('id', 'my-video')
+                        .attr('class', 'video-js')
+                        .attr('controls', 'controls')
+                        .attr('preload', 'auto')
+                        .attr('width', '640')
+                        .attr('height', '264')
+                        .attr('poster', response.poster)
+                        .attr('data-setup', '{}');
+
+                    var mp4Source = $('<source></source>')
+                        .attr('src', response.mp4)
+                        .attr('type', 'video/mp4');
+
+                    var webmSource = $('<source></source>')
+                        .attr('src', response.webm)
+                        .attr('type', 'video/webm');
+
+                    videoPlayer.append(mp4Source, webmSource);
+
+                    $('.links').html('').append(videoPlayer);
+                    {% else %}
+                    // Display the links
+                    var linksContainer = $('.links');
+                    var downloadLink = $('<a></a>')
+                        .attr('href', response.gp)
+                        .addClass('btn btn-primary btn-block')
+                        .text('Download Video');
+
+                    var copyLink = $('<p></p>')
+                        .text('OR copy below link and open in your device player');
+
+                    var copyLinkUrl = $('<a></a>')
+                        .attr('href', response.gp)
+                        .text(response.gp);
+
+                    linksContainer.html('').append(downloadLink, copyLink, copyLinkUrl);
+                    {% endif %}
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    console.error(xhr);
+                    console.error(status);
+                }
+            });
+        });
+    </script>
+{% endblock %}

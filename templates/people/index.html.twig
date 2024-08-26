@@ -1,0 +1,58 @@
+{% extends 'innerbase.html.twig' %}
+
+{% block body %}
+    {%  include 'partials/navbar.html.twig' %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- just sidebar -->
+        <div class="row min-vh-100 mt-5 pt-5 flex-column flex-md-row ">
+            {% include 'partials/sidebar.html.twig' %}
+
+            <!-- dashboard content -->
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                <div class="container">
+                    {% if sent is defined and sent == 1 %}
+                        <div class="alert alert-success">
+                            <p>Request sent successfully</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="row">
+                        {% set contacts = users %}
+                        {% set fid = fid %}
+                        {% set request = requests %}
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Firstname</th>
+                                <th>Surname</th>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for contact in contacts %}
+                                <tr>
+                                    <td>{{ contact.firstname }}</td>
+                                    <td>{{ contact.lastname }}</td>
+                                    <td>{{ contact.city }}</td>
+                                    <td>{{ contact.country }}</td>
+                                    {% if contact.id == fid or contact.id in request|column('id') %}
+                                        <td>Request sent already</td>
+                                    {% else %}
+                                        <td><a href="{{ path('people_sendrequest', {'friendid': contact.id}) }}" class="btn btn-primary">Add as Friend</a></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr/>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'innerbase.html.twig' %}
+{% block body %}
+    {%  include 'partials/navbar.html.twig' %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- just sidebar -->
+        <div class="row min-vh-100 mt-5 pt-5 flex-column flex-md-row ">
+            {% include 'partials/sidebar.html.twig' %}
+
+            <!-- dashboard content -->
+            <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                <form id="myForm" action="/insideplay/makevideo/" method="POST">
+                    <div class="row">
+                        <p>Make a video</p>
+                        <p>Pick a song</p>
+                        {% for media in audiofiles %}
+                            {# {% if file_exists(media.filename) %} #}
+                            <div class="col-md-4" style="margin:10px;">
+                                <a class="thumbnail" href="/play/index/{{ media.filename }}">
+                                    <img class="img-fluid"
+                                         src="{{ media.thumbnail }}"
+                                         alt="{{ media.filename }}" width="150em">
+                                </a>
+                                <input type='radio' name='song' value='{{ media.filename }}' />
+                                {{ media.filename }}
+                            </div>
+                            {# {% endif %} #}
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        <p>Pick some images</p>
+                        {% for media in imagesfiles %}
+                            {# {% if file_exists(media.filename) %} #}
+                            <div class="col-md-4" style="margin:10px;">
+                                <a class="thumbnail" href="/play/index/{{ media.filename }}">
+                                    <img class="img-fluid"
+                                         src="{{ media.thumbnail }}"
+                                         alt="{{ media.filename }}" width="150em">
+                                </a>
+                                <input type='checkbox' name='images[]' value='{{ media.filename }}' />
+                                {{ media.filename }}
+                            </div>
+                            {# {% endif %} #}
+                        {% endfor %}
+                    </div>
+                    <div class='progress' id="progress_div">
+                        <div class='bar' id='bar'></div>
+                        <div class='percent' id='percent'>0%</div>
+                    </div>
+                    <input type="submit" value="Create" class="btn btn-primary btn-block"/>
+                </form>
+            </main>
+        </div>
+    </div>
+</div>
+{% endblock %}
